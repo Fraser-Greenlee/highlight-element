@@ -1,0 +1,15 @@
+{
+	"name": "highlight-element",
+	"title": "Highlight variables in your code when selected.",
+	"description": "Mac OS only.",
+	"homepage": "https://github.com/Fraser-Greenlee/highlight-element/tree/master",
+	"version": "0.0.1",
+	"author": "Fraser-Greenlee",
+	"license": "MIT",
+	"files": [
+		"main.js",
+		"main.css"
+	],
+	"contributors": ["Fraser-Greenlee"],
+	"keywords": ["highlight","app","osx","quick","launch"]
+}
