@@ -1,12 +1,14 @@
 define(function (require, exports, module) {
 	"use strict";
 	
-	var ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
+	var KeyBindingManager   = brackets.getModule('command/KeyBindingManager'),
+		CommandManager = brackets.getModule("command/CommandManager"),
+		ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
 		AppInit = brackets.getModule('utils/AppInit'),
 		lastcm = '',
 		lasttxt = '',
 		nothigh = ['','cm-tab','cm-string','cm-number','CodeMirror-matchingbracket','cm-comment','cm-builtin','cm-keyword','cm-operator'],
-		both = ['cm-variable-2','cm-def'],
+		both = ['cm-variable-2','cm-def','cm-variable'],
 		words,
 		word;
 	
@@ -32,6 +34,7 @@ define(function (require, exports, module) {
 		lasttxt = txt;
 		lastcm = cm;
 	}
+	
 	function checkcursor() {
 			if (lastcm != '') {
 				if ($.inArray(lastcm,both) > -1) {
