@@ -56,6 +56,7 @@ define(function (require, exports, module) {
 	}
 	AppInit.appReady(function () {
 		$(document).on("mousedown", function () {checkcursor();});
+		$(document).on("keydown", function () {checkcursor();});
 	});
 	ExtensionUtils.loadStyleSheet(module, "main.css");
 });
