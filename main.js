@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
 	"use strict";
-	
+
 	var KeyBindingManager   = brackets.getModule('command/KeyBindingManager'),
 		CommandManager = brackets.getModule("command/CommandManager"),
 		ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 		both = ['cm-variable-2','cm-def','cm-variable'],
 		words,
 		word;
-	
+
 	function highlight(txt,cm) {
 		if ($.inArray(cm,nothigh) > -1 || txt == '' || txt == '$') {
 			return false;
@@ -34,25 +34,29 @@ define(function (require, exports, module) {
 		lasttxt = txt;
 		lastcm = cm;
 	}
-	
+
 	function checkcursor() {
-			if (lastcm != '') {
-				if ($.inArray(lastcm,both) > -1) {
-					$.each(both, function() {
-						$('.'+this).removeClass('ext-highlighted');
-					});
-				} else {
-					$('.'+lastcm).removeClass('ext-highlighted');
+		if (lastcm != '') {
+			if ($.inArray(lastcm,both) > -1) {
+				$.each(both, function() {
+					$('.'+this).removeClass('ext-highlighted');
+				});
+			} else {
+				$('.'+lastcm).removeClass('ext-highlighted');
+			}
+		}
+		words = $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-activeline .CodeMirror-line span span');
+		for (var i = 0; i < words.length; i++) {
+			word = $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-activeline .CodeMirror-line span span:nth-child('+(i+1)+')');
+			if (word.length > 0){
+				if (word.position().left != null) {
+					if (word.position().left <= $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-cursors .CodeMirror-cursor').position().left
+						&& word.position().left+word.width() >=  $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-cursors .CodeMirror-cursor').position().left) {
+						highlight($.trim(word.html()), $.trim(word.attr('class')));
+					}
 				}
 			}
-			words = $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-activeline .CodeMirror-line span span');
-			for (var i = 0; i < words.length; i++) {
-				word = $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-activeline .CodeMirror-line span span:nth-child('+(i+1)+')');
-				if (word.position()['left'] <= $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-cursors .CodeMirror-cursor').position()['left']
-					&& word.position()['left']+word.width() >=  $('.pane-content .CodeMirror:not([style*="display: none;"]) .CodeMirror-cursors .CodeMirror-cursor').position()['left']) {
-					highlight($.trim(word.html()), $.trim(word.attr('class')));
-				}
-			}
+		}
 	}
 	AppInit.appReady(function () {
 		$(document).on("mousedown", function () {checkcursor();});
